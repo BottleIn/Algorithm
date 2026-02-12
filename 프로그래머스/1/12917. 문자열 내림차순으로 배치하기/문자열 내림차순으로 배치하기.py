@@ -1,9 +1,8 @@
 def solution(s):
     answer = ''
-    print(s)
-    a = list(s)
-    a.sort(reverse=True)
-    print(a)
-    answer = ''.join(a)
-# print('A')
+    tmp = []
+    for x in s:
+        tmp.append(x)
+    tmp.sort(reverse=True)
+    answer = ''.join(tmp)
     return answer
