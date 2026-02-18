@@ -1,0 +1,9 @@
+-- 코드를 작성해주세요
+SELECT C.ID
+FROM ECOLI_DATA A
+JOIN ECOLI_DATA B
+  ON B.PARENT_ID = A.ID       -- A: 1세대 → B: 2세대
+JOIN ECOLI_DATA C
+  ON C.PARENT_ID = B.ID       -- B: 2세대 → C: 3세대
+WHERE A.PARENT_ID IS NULL     -- A는 1세대
+ORDER BY C.ID ASC;
