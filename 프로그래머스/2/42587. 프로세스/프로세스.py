@@ -1,29 +1,19 @@
 from collections import deque
-
 def solution(priorities, location):
-    max_num = - 1
-    ans = deque()
-    sort_prior = sorted(priorities)
-    #print(sort_prior)
-    idx = 0
-    for val in priorities:
-        ans.append([idx,val])
-        idx += 1
-    
-    start_time = 1
-    # print(ans)
-    while ans:
-        idx, val = ans.popleft()
-        if val < sort_prior[-1]:
-            ans.append([idx,val])
-            # print(ans)
+    answer = 0
+    process = deque([(i,v) for i,v in enumerate(priorities)])
+    # print(process)
+    priorities.sort()
+    t = 0
+    while process:
+        idx, val = process.popleft()
+        
+        if val < priorities[-1]:
+            process.append((idx,val))
         else:
-            if(location == idx):
-                return start_time
-            else:
-                start_time += 1
-                sort_prior.pop()
-                # print(ans)
-                
-
-# print(solution([1, 1, 9, 1, 1, 1],0))
+            t += 1
+            if idx == location:
+                return t
+        
+            priorities.pop()    
+    return answer
