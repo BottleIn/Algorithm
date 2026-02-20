@@ -1,21 +1,19 @@
 def solution(s):
     answer = True
-    stack = []
-    for str in s:
-        # print(str)
-        if len(stack) == 0:
-            stack.append(str)
-            # print(f"비어있어 추가 {stack}")
-        else:
-            compare_str = stack[-1]
-            # print(compare_str)
-            if compare_str != '(' or str != ')':
-                stack.append(str)
-                # print(f"안맞아서 추가 {stack}")
-            else: # 닫힌 상황
-                stack.pop()
-    return not len(stack)
-
-
-
-print(solution(")()("))
+    dp = []
+    # [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+    for x in s:
+        if not dp or x == '(':
+            dp.append(x)
+        if x == ')':
+            if dp[-1] == '(':
+                dp.pop()
+                continue
+            else:
+                answer = False
+                break
+    print(dp)
+    if dp:
+        answer = False
+    
+    return answer
