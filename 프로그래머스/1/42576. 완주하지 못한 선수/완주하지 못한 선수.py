@@ -1,17 +1,14 @@
 from collections import defaultdict
 
 def solution(participant, completion):
-    answer = ''
-    dict = defaultdict(int)
-    # set_participant = set(participant)
-    for name in participant:
-        dict[name] += 1
+    d = defaultdict(int)
     
-    for name in completion:
-        dict[name] -= 1
-    ans = ''
-    for x in dict:
-        if dict[x] > 0:
-            return x
+    for x in participant:
+        d[x] += 1
+    for y in completion:
+        d[y] -= 1
     
-    return 
+    for z in d:
+        if d[z] > 0:
+            return z
+        
