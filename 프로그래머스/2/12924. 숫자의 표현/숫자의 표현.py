@@ -1,28 +1,19 @@
 def solution(n):
     answer = 0
-    l = 0
-    r = 1
-    if n == 1:
-        return 1
-    nums = []
-    for x in range(1,n+1):
-        nums.append(x)
-    # print(nums)
+    start = 1
+    end = 1
+    current_sum = 1
     
-    while l <= r :
-        # print(l,r)
-        # print(nums[l] , nums[r])
-        # print('============')
-        tar = 0
-        for x in nums[l:r+1]:
-            tar += x
-        #print(l,r,tar)    
-        if tar == n:
+    while start <= n:
+        if current_sum == n:
             answer += 1
-            l += 1
-        elif tar < n:
-            r += 1
+            current_sum -= start
+            start += 1
+        elif current_sum < n:
+            end += 1
+            current_sum += end
         else:
-            l += 1
-    
+            current_sum -= start
+            start += 1
+            
     return answer
