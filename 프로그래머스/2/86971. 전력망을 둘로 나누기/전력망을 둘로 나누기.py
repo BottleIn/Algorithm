@@ -1,39 +1,34 @@
-from collections import defaultdict, deque
-import sys
-
+from collections import deque, defaultdict
 def solution(n, wires):
-    answer = n
-    dict = defaultdict(list)
+    graph = defaultdict(list)
     
-    for x,y in wires:
-        dict[x].append(y)
-        dict[y].append(x)
+    # 그래프 노선도
+    for x1,x2 in wires:
+        graph[x1].append(x2)
+        graph[x2].append(x1)
     
-    # print(dict)
-    def bfs(start,v1,v2):
-        de = deque([start])
-        visited = [False] * (n+1)
+    def bfs(start, v1, v2):
+        d = deque([start])
+        visited  = [False] * (n + 1)
         visited[start] = True
-        count = 1
-        while de:
-            curr = de.popleft()
-            for neigh in dict[curr]:
-                if (curr == v1 and neigh == v2) or (curr == v2 and neigh == v1):
+        count = 1   # 얼마나 연결되어 있는지 개수
+        while d:
+            node = d.popleft()
+            for neigh in graph[node]:
+                if (node == v1 and neigh == v2) or (node == v2 and neigh == v1):
                     continue
-                    
+                
                 if not visited[neigh]:
                     visited[neigh] = True
-                    de.append(neigh)
+                    d.append(neigh)
                     count += 1
         return count
-        
-    for v1 ,v2 in wires:
-        route1 = bfs(v1,v1,v2)
-        route2 = n - route1
-        
-        tmp = abs(route1-route2)
-        answer = min(answer, tmp)
-        
     
+    ans = n
+    for x1,x2 in wires:
+        t1 = bfs(x1,x1,x2)
+        t2 = n - t1
+        
+        ans = min(ans , abs(t1-t2))
     
-    return answer
+    return ans
