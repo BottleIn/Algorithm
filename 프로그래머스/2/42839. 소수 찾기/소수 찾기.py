@@ -1,30 +1,26 @@
-import math
 from itertools import permutations
-
-def is_prime(n: int) -> bool:
-    if n < 2:
-        return False
-    if n == 2:
-        return True
-    if n % 2 == 0:
-        return False
-    limit = int(math.isqrt(n))
-    for d in range(3, limit + 1, 2):
-        if n % d == 0:
-            return False
-    return True
-
 def solution(numbers):
-    nums = set()
-    digits = list(numbers)
-    # print(digits)
-    for r in range(1, len(digits) + 1):
-        for p in permutations(digits, r):
-            # print(p)
-            nums.add(int(''.join(p)))
-    # print(nums)
-    answer = 0
-    for x in nums:
-        if is_prime(x):
-            answer += 1
-    return answer
+    n = len(numbers)
+    numbers = list(numbers)
+    a = set()
+    for i in range(1,n+1):
+        for p in permutations(numbers,i):
+            a.add(int("".join(p))) 
+    
+    answer = set()
+    
+    for num in a:
+        
+        if num == 0 or num == 1:
+            continue
+        if num == 2:
+            answer.add(num)
+            
+        is_prime = True
+        for x in range(2, int((num ** (1/2) + 1))):
+            if num % x == 0:
+                is_prime = False
+                break
+        if is_prime : answer.add(num)
+    # print(answer)
+    return len(answer)
