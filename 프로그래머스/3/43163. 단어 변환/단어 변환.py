@@ -1,34 +1,18 @@
-from collections import defaultdict, deque
-import sys
-
+from collections import deque
 def solution(begin, target, words):
-    if target not in words:
-        return 0
-    
-    ans = 0
-    d = deque()
-    d.append(begin)
-    visited = {}
-    
-    visited[begin] = 0
-    
-    for wrd in words:
-        visited[wrd] = 0
-    # print(visited)
-    # return 0
+    answer = 0
+    d = deque([(begin, 0)]) # 단어, 횟수
+    visited = set([begin]) # 사용여부
     
     while d:
-        check_word = d.popleft()
-        if check_word == target:
-            ans = visited[check_word]
-            break
+        cur_wrd, cnt = d.popleft()
         
-        for wrd in words:
-            if visited[wrd] == 0:
-                #print(check_word, wrd)
-                different_word_num = sum(c1 != c2 for c1, c2 in zip(check_word, wrd))
-                if different_word_num == 1:
-                    visited[wrd] = visited[check_word] + 1
-                    d.append(wrd)
-    #print(visited)
-    return ans
+        if cur_wrd == target:
+            return cnt
+        
+        for word in words:
+            if 1 == sum( s1!=s2 for s1,s2 in zip(cur_wrd,word)) and word not in visited:
+                visited.add(word)
+                d.append((word,cnt+1))
+    
+    return 0
