@@ -1,9 +1,25 @@
--- 코드를 입력하세요
-SET @hour := -1;
+# -- 코드를 입력하세요
+# SET @hour := -1;
 
-SELECT @hour := @hour + 1 AS HOUR,
-(SELECT COUNT(*)
-FROM ANIMAL_OUTS
-WHERE HOUR(DATETIME) = @hour) AS COUNT
-FROM ANIMAL_OUTS
-WHERE @hour < 23
+# SELECT @hour := @hour + 1 AS HOUR,
+# (SELECT COUNT(*)
+# FROM ANIMAL_OUTS
+# WHERE HOUR(DATETIME) = @hour) AS COUNT
+# FROM ANIMAL_OUTS
+# WHERE @hour < 23
+
+-- 0부터 23까지 숫자를 생성하는 재귀 쿼리
+WITH RECURSIVE TIME_TABLE AS (
+    SELECT 0 AS HOUR
+    UNION ALL
+    SELECT HOUR + 1 FROM TIME_TABLE WHERE HOUR < 23
+)
+
+SELECT 
+    T.HOUR, 
+    COUNT(A.ANIMAL_ID) AS COUNT -- 데이터가 없으면 0으로 집계됨
+FROM TIME_TABLE T
+LEFT JOIN ANIMAL_OUTS A 
+    ON T.HOUR = HOUR(A.DATETIME) -- 시간대별로 매칭
+GROUP BY T.HOUR
+ORDER BY T.HOUR;
