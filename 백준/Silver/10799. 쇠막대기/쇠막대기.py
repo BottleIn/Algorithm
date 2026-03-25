@@ -3,28 +3,25 @@ import sys
 def main():
     input = sys.stdin.readline
 
-    s = input().strip()  # 괄호 문자열 한 줄
-    # 입력만 받는 코드 (출력 없음)
-    dp = []
+    # 1) 괄호 문자열
+    s = input().strip()
     ans = 0
-    cur_idx = 0
-    for idx,w in enumerate(s):
-        # if len(dp) == 0:
-        #     dp.append(w)
-        if w=='(':
-            cur_idx = idx
-            dp.append(w)
-        elif w == ')':
-            if idx - cur_idx == 1: # 레이저
-                dp.pop()
-                ans += (1*len(dp))
-            else:
-                dp.pop()
+    stack = []
+    #total_steal = 0
+    for idx, wrd in enumerate(s):
+        if wrd == '(':
+            stack.append(wrd)
+        
+        # ) 가 들어올 경우
+        else:
+            stack.pop()
+            if s[idx-1] == '(': # 레이저  
+               ans += len(stack) # 지금까지의 철 개수 : '('
+            else: # 철 길이가 끝남
                 ans += 1
-        #print(dp, ans)
-    print(ans)    
             
-
+        #print(stack,ans)
+    print(ans)
 
 if __name__ == "__main__":
     main()
